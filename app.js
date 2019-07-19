@@ -5,6 +5,7 @@ const express = require('express');
 const httpErrors = require('http-errors');
 const logger = require('morgan');
 const path = require('path');
+const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
 const reservationRouter = require('./routes/reservation');
