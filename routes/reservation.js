@@ -1,12 +1,11 @@
 const express = require('express');
+const cors = require('cors');
 const router = express.Router();
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const Reservation = require("../models/reservation");
 
-const reservationData = [];
-
 /* GET request */
-router.get('/', (req, res, next) => {
+router.get('/', cors(), (req, res, next) => {
   Reservation.find({}, (err, reservations) => {
     if (err) {
       console.log(err);
