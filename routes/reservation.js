@@ -1,19 +1,21 @@
 const express = require('express');
 const cors = require('cors');
 const router = express.Router();
+const service = require("../services/reservation-service");
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const Reservation = require("../models/reservation");
 
 /* GET request */
 router.get('/', cors(), (req, res, next) => {
-  Reservation.find({}, (err, reservations) => {
-    if (err) {
-      console.log(err);
-    } else {
-      reservations = formatReservations(reservations);
-      res.json(reservations);
-    }
-  });
+  // Reservation.find({}, (err, reservations) => {
+  //   if (err) {
+  //     console.log(err);
+  //   } else {
+  //     reservations = formatReservations(reservations);
+  //     res.json(reservations);
+  //   }
+  // });
+  res.json(service.listReservations());
 });
 
 /* POST create reservations */
