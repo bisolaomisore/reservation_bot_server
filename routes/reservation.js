@@ -7,9 +7,14 @@ const reservationData = [];
 
 /* GET request */
 router.get('/', (req, res, next) => {
-  res.json(
-    reservationData
-  );
+  Reservation.find({}, (err, reservations) => {
+    if (err) {
+      console.log(err);
+    } else {
+      reservations = formatReservations(reservations);
+      res.json(reservations);
+    }
+  });
 });
 
 /* POST create reservations */
@@ -57,5 +62,23 @@ router.post('/', (req, res, next) => {
   res.writeHead(200, {'Content-Type': 'text/xml'});
   res.end(twiml.toString());
 });
+
+const formatReservations = (data) => {
+  formattedData = data.map(datum => {
+    var reservationDate = new Date(datum.datetime);
+    var reservationHours = reservationDate.getHours();
+    var reservationMin =  (reservationDate.getMinutes() < 10) ? '0' + reservationDate.getMinutes() : reservationDate.getMinutes()
+
+    reservationObject = {
+      id: datum._id,
+      name: `${datum.firstname} ${datum.lastname} at
+             ${reservationHours}:${reservationMin}`
+    }
+
+    return reservationObject;
+  });
+
+  return formattedData;
+}
 
 module.exports = router;
