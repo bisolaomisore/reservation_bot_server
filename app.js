@@ -22,7 +22,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // DB setup
-mongoose.connect(process.env.DEVELOPMENT_DB_URL, { useNewUrlParser: true });
+const DB_URL = process.env.PRODUCTION_DB_URL || process.env.DEVELOPMENT_DB_URL;
+mongoose.connect(DB_URL, { useNewUrlParser: true });
 
 app.use('/', indexRouter);
 app.use('/reservation', reservationRouter);
